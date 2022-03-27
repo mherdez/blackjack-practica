@@ -20,7 +20,7 @@ const barajaNueva = (numeroBarajas) => {
 		}
 	}
 	baraja = baraja.sort(() => Math.random() - 0.5);
-	console.clear();
+	// console.clear();
 	console.log(baraja);
 	return baraja;
 };
@@ -70,6 +70,9 @@ const sacarCartas = (baraja) => {
 			// console.log(carta, valorCarta(carta), ' - total: ', totalPuntos);
 		}
 		$('#cards').html(cartaHtml);
+		if ($('#inlineCheckbox1').val() === 'apiladas') {
+			$('#cards').addClass('apiladas');
+		}
 		cartaHtml = '';
 	}, nivel);
 };
@@ -97,6 +100,10 @@ $(() => {
 		$('#btn-count').removeClass('shadow');
 
 		$('#nivel').attr('disabled', 'true');
+		$('.form-check-input').each(function () {
+			$(this).attr('disabled', 'true');
+		});
+		$('#nivel').attr('disabled', 'true');
 
 		nivel = $('#nivel').val() * 1;
 		numCartas = $('input[name=inlineRadioOptions]:checked').val() * 1;
@@ -114,6 +121,10 @@ $(() => {
 		$('#btn-new').removeClass('disabled');
 		$('#btn-new').addClass('shadow');
 		$('#nivel').removeAttr('disabled');
+		$('#nivel').attr('disabled', 'true');
+		$('.form-check-input').each(function () {
+			$(this).removeAttr('disabled');
+		});
 
 		$('#btn-stop').addClass('disabled');
 		$('#btn-stop').removeClass('shadow');
