@@ -4,6 +4,7 @@ let carta;
 let intervalSacarCartas;
 let nivel = 1;
 let numCartas = 1;
+let apiladas = '';
 let cartaHtml = '';
 
 const barajaNueva = (numeroBarajas) => {
@@ -20,6 +21,7 @@ const barajaNueva = (numeroBarajas) => {
 		}
 	}
 	baraja = baraja.sort(() => Math.random() - 0.5);
+	baraja = _.shuffle(baraja);
 	// console.clear();
 	console.log(baraja);
 	return baraja;
@@ -70,9 +72,11 @@ const sacarCartas = (baraja) => {
 			// console.log(carta, valorCarta(carta), ' - total: ', totalPuntos);
 		}
 		$('#cards').html(cartaHtml);
-		if ($('#inlineCheckbox1').val() === 'apiladas') {
-			$('#cards').addClass('apiladas');
-		}
+
+		$('input[name=inlineCheckbox1]:checked').val() === 'apiladas'
+			? $('#cards').addClass('apiladas')
+			: $('#cards').removeClass('apiladas');
+
 		cartaHtml = '';
 	}, nivel);
 };
