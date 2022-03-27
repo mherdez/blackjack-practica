@@ -3,6 +3,8 @@ let totalPuntos = 0;
 let carta;
 let intervalSacarCartas;
 let nivel = 1;
+let numCartas = 1;
+let cartaHtml = '';
 
 const barajaNueva = (numeroBarajas) => {
 	baraja = [];
@@ -17,9 +19,9 @@ const barajaNueva = (numeroBarajas) => {
 			}
 		}
 	}
-	baraja = baraja.sort((a, b) => Math.random() - 0.5);
+	baraja = baraja.sort(() => Math.random() - 0.5);
 	console.clear();
-	// console.log(baraja);
+	console.log(baraja);
 	return baraja;
 };
 const valorCarta = (carta) => {
@@ -61,10 +63,14 @@ const sacarCartas = (baraja) => {
 			noCards();
 			return;
 		}
-		carta = baraja.shift();
-		const cartaHtml = `<img src="./assets/cartas/${carta}.png" />`;
+		for (let i = 1; i <= numCartas; i++) {
+			carta = baraja.shift();
+			cartaHtml += `<img src="./assets/cartas/${carta}.png" />`;
+			totalPuntos += valorCarta(carta);
+			// console.log(carta, valorCarta(carta), ' - total: ', totalPuntos);
+		}
 		$('#cards').html(cartaHtml);
-		totalPuntos += valorCarta(carta);
+		cartaHtml = '';
 	}, nivel);
 };
 
@@ -93,23 +99,8 @@ $(() => {
 		$('#nivel').attr('disabled', 'true');
 
 		nivel = $('#nivel').val() * 1;
-		// if (nivel === 1) {
-		// 	nivel = 2000;
-		// }
-		// if (nivel === 2) {
-		// 	nivel = 1500;
-		// }
-		// if (nivel === 3) {
-		// 	nivel = 1000;
-		// }
-		// if (nivel === 4) {
-		// 	nivel = 750;
-		// }
-		// if (nivel === 5) {
-		// 	nivel = 500;
-		// }
-		sacarCartas(barajaNueva(1));
-		console.log(nivel);
+		numCartas = $('input[name=inlineRadioOptions]:checked').val() * 1;
+		sacarCartas(barajaNueva(6));
 	});
 
 	// BOTON DETENERSE
@@ -133,9 +124,7 @@ $(() => {
 
 	// BOTON MOSTRAR CUENTA
 	$('#btn-count').click(() => {
-		$('#myAlerta').text(totalPuntos);
-		$('#myAlerta').addClass('myAlerta');
-		$('#myAlerta').addClass('myBg-success');
-		console.log(totalPuntos);
+		$('.modal-title').text('Conteo total');
+		$('.modal-body').text(totalPuntos);
 	});
 });
